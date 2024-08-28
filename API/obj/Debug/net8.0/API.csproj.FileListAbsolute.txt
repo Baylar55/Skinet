@@ -139,3 +139,5 @@ C:\Users\Baylar\Desktop\Skinet\api\bin\Debug\net8.0\Swashbuckle.AspNetCore.Swagg
 C:\Users\Baylar\Desktop\Skinet\api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Baylar\Desktop\Skinet\api\bin\Debug\net8.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Baylar\Desktop\Skinet\api\obj\Debug\net8.0\API.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\StackExchange.Redis.dll
