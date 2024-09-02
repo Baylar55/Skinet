@@ -12,9 +12,9 @@ export class CartService {
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
   cart = signal<Cart | null>(null);
-  itemCount = computed(()=>{
-    return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0);
-  })
+  itemCount = computed(() => {
+    return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0)
+  });
   totals = computed(() => {
     const cart = this.cart();
     if (!cart) return null;
@@ -27,34 +27,45 @@ export class CartService {
       discount,
       total: subtotal + shipping - discount
     }
-  });
+  })
 
   getCart(id: string) {
     return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).pipe(
-      map(cart=>{
+      map(cart => {
         this.cart.set(cart);
         return cart;
-      }) 
+      })
+    )
+  }
+
+  getCartItems(id: string)  {
+    return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).pipe(
+      map(cart => {
+        this.cart.set(cart);
+        return cart.items;
+      })
     )
   }
 
   setCart(cart: Cart) {
     return this.http.post<Cart>(this.baseUrl + 'cart', cart).subscribe({
-      next: (cart) => this.cart.set(cart),
-    });
+      next: cart => this.cart.set(cart)
+    })
   }
 
   addItemToCart(item: CartItem | Product, quantity = 1) {
     const cart = this.cart() ?? this.createCart();
+    console.log("this is cart : ",cart);
     if (this.isProduct(item)) {
       item = this.mapProductToCartItem(item);
+      console.log("this is item : ",item);
     }
-
     cart.items = this.addOrUpdateItem(cart.items, item, quantity);
-    this.setCart(cart); 
+    console.log("this is cart.items", cart.items)
+    this.setCart(cart);
   }
 
-  removeItemFromCart(productId: number, quantity = 1){
+  removeItemFromCart(productId: number, quantity = 1) {
     const cart = this.cart();
     if (!cart) return;
     const index = cart.items.findIndex(x => x.productId === productId);
@@ -72,8 +83,8 @@ export class CartService {
     }
   }
 
-  deleteCart(){
-    this.http.delete(this.baseUrl+'cart?id='+this.cart()?.id).subscribe({
+  deleteCart() {
+    this.http.delete(this.baseUrl  + 'cart?id=' + this.cart()?.id).subscribe({
       next: () => {
         localStorage.removeItem('cart_id');
         this.cart.set(null);
@@ -82,15 +93,18 @@ export class CartService {
   }
 
   private addOrUpdateItem(items: CartItem[], item: CartItem, quantity: number): CartItem[] {
-    const index = items.findIndex((x) => x.productId === item.productId);
+    const index = items.findIndex(x => x.productId === item.productId);
+    console.log("This is add method and index is : ", index, "productId is : ",item.productId)
     if (index === -1) {
       item.quantity = quantity;
       items.push(item);
+      console.log("This is add method and items are : ", items)
     } else {
-      items[index].quantity += quantity;
+      items[index].quantity += quantity
     }
     return items;
   }
+
   private mapProductToCartItem(item: Product): CartItem {
     return {
       productId: item.id,
@@ -99,12 +113,12 @@ export class CartService {
       quantity: 0,
       pictureUrl: item.pictureUrl,
       brand: item.brand,
-      type: item.type,
-    };
+      type: item.type
+    }
   }
 
   private isProduct(item: CartItem | Product): item is Product {
-    return (item as Product).id != undefined;
+    return (item as Product).id !== undefined;
   }
 
   private createCart(): Cart {

@@ -17,15 +17,15 @@ export class CartItemComponent {
   item = input.required<CartItem>();
   cartService = inject(CartService);
 
-  incrementQuantity(){
+  incrementQuantity() {
     this.cartService.addItemToCart(this.item());
   }
 
-  decrementQuantity(){
+  decrementQuantity() {
     this.cartService.removeItemFromCart(this.item().productId);
   }
 
-  removeItemFromCart(){
+  removeItemFromCart() {
     this.cartService.removeItemFromCart(this.item().productId, this.item().quantity);
   }
 }
