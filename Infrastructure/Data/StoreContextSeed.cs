@@ -1,4 +1,5 @@
 using System.Text.Json;
+using Company.ClassLibrary1;
 using Core.Entities;
 
 namespace Infrastructure.Data;
@@ -16,6 +17,18 @@ public class StoreContextSeed
             if(products is null) return;
             
             context.Products.AddRange(products);
+            
+            await context.SaveChangesAsync();
+        }
+        if(!context.DeliveryMethods.Any())
+        {
+            var deliveryMethodData=await File.ReadAllTextAsync("../Infrastructure/Data/SeedData/delivery.json");
+
+            var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodData);
+            
+            if(deliveryMethods is null) return;
+            
+            context.DeliveryMethods.AddRange(deliveryMethods);
             
             await context.SaveChangesAsync();
         }

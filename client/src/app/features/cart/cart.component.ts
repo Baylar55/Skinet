@@ -15,6 +15,7 @@ export class CartComponent implements OnInit{
   cartService = inject(CartService);
 
   ngOnInit(): void {
+    
     const cartId = localStorage.getItem('cart_id');
     if(cartId)
     {
