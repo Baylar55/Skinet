@@ -30,6 +30,11 @@ builder.Services.AddSingleton<ICartService, CartService>();
 
 builder.Services.AddIdentityApiEndpoints<AppUser>()
                 .AddEntityFrameworkStores<StoreContext>();
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.Cookie.SameSite = SameSiteMode.None;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
+});
 
 builder.Services.AddCors();
 var app = builder.Build();

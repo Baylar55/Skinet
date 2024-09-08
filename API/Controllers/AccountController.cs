@@ -75,11 +75,11 @@ public class AccountController(SignInManager<AppUser> signInManager) : BaseApiCo
     {
         var user = await signInManager.UserManager.GetUserByEmailWithAddres(User);
 
-         if (user.Address == null)
+        if (user.Address == null)
         {
             user.Address = addressDTO.ToEntity();
         }
-        else 
+        else
         {
             user.Address.UpdateFromDto(addressDTO);
         }

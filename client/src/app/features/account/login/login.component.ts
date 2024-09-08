@@ -13,14 +13,14 @@ import { HttpClient } from '@angular/common/http';
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormField,
     MatCard,
+    MatFormField,
     MatInput,
     MatLabel,
-    MatButton,
+    MatButton
   ],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  styleUrl: './login.component.scss'
 })
 export class LoginComponent {
   private fb = inject(FormBuilder);
@@ -28,7 +28,7 @@ export class LoginComponent {
   private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   returnUrl = '/shop';
-private http=inject(HttpClient)
+
   constructor() {
     const url = this.activatedRoute.snapshot.queryParams['returnUrl'];
     if (url) this.returnUrl = url;
@@ -39,12 +39,10 @@ private http=inject(HttpClient)
     password: ['']
   });
 
-   onSubmit() {
-  
+  onSubmit() {
     this.accountService.login(this.loginForm.value).subscribe({
       next: () => {
         this.accountService.getUserInfo().subscribe();
-        
         this.router.navigateByUrl(this.returnUrl);
       }
     })

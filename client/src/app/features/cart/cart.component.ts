@@ -11,18 +11,6 @@ import { EmptyStateComponent } from "../../shared/components/empty-state/empty-s
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent implements OnInit{
+export class CartComponent{
   cartService = inject(CartService);
-
-  ngOnInit(): void {
-    
-    const cartId = localStorage.getItem('cart_id');
-    if(cartId)
-    {
-      this.cartService.getCartItems(cartId).subscribe({
-        next: prd=>console.log(prd),
-        error: err=>console.log(err)
-      })
-    }
-  }
 }

@@ -55,13 +55,10 @@ export class CartService {
 
   addItemToCart(item: CartItem | Product, quantity = 1) {
     const cart = this.cart() ?? this.createCart();
-    console.log("this is cart : ",cart);
     if (this.isProduct(item)) {
       item = this.mapProductToCartItem(item);
-      console.log("this is item : ",item);
     }
     cart.items = this.addOrUpdateItem(cart.items, item, quantity);
-    console.log("this is cart.items", cart.items)
     this.setCart(cart);
   }
 
@@ -94,11 +91,9 @@ export class CartService {
 
   private addOrUpdateItem(items: CartItem[], item: CartItem, quantity: number): CartItem[] {
     const index = items.findIndex(x => x.productId === item.productId);
-    console.log("This is add method and index is : ", index, "productId is : ",item.productId)
     if (index === -1) {
       item.quantity = quantity;
       items.push(item);
-      console.log("This is add method and items are : ", items)
     } else {
       items[index].quantity += quantity
     }
