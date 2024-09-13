@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { loadStripe, Stripe, StripeAddressElement, StripeAddressElementOptions, StripeElements, StripePaymentElement } from '@stripe/stripe-js';
+import { ConfirmationToken, loadStripe, Stripe, StripeAddressElement, StripeAddressElementOptions, StripeElements, StripePaymentElement } from '@stripe/stripe-js';
 import { environment } from '../../../environments/environment';
 import { CartService } from './cart.service';
 import { HttpClient } from '@angular/common/http';
@@ -44,10 +44,10 @@ export class StripeService {
     return this.elements;
   }
 
-  async createPaymentElement(){
-    if(!this.paymentElement){
+  async createPaymentElement() {
+    if (!this.paymentElement) {
       const elements = await this.initializeElements();
-      if(elements){
+      if (elements) {
         this.paymentElement = elements.create('payment');
       } else {
         throw new Error('Elements instance has not been initialized');
@@ -88,6 +88,41 @@ export class StripeService {
       }
     }
     return this.addressElement;
+  }
+
+  async createConfirmationToken() {
+    const stripe = await this.getStripeInstance();
+    const elements = await this.initializeElements();
+    const result = await elements.submit();
+
+    if (result.error) throw new Error(result.error.message);
+    if (stripe) {
+      return await stripe.createConfirmationToken({ elements });
+    } else {
+      throw new Error('Stripe not available');
+    }
+  }
+
+  async confirmPayment(confirmationToken: ConfirmationToken) {
+    const stripe = await this.getStripeInstance();
+    const elements = await this.initializeElements();
+    const result = await elements.submit();
+
+    if (result.error) throw new Error(result.error.message);
+
+    const clientSecret = this.cartService.cart()?.clientSecret;
+
+    if (stripe && clientSecret) {
+      return await stripe.confirmPayment({
+        clientSecret: clientSecret,
+        confirmParams:{
+          confirmation_token: confirmationToken.id
+        },
+        redirect:'if_required'
+      });
+    } else {
+      throw new Error('Unable to load stripe');
+    }
   }
 
   createOrUpdatePaymentIntent() {
