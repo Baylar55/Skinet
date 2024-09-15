@@ -1,4 +1,3 @@
-using Company.ClassLibrary1;
 
 namespace Core.Entities.OrderAggregate;
 

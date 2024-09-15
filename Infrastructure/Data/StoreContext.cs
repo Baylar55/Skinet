@@ -1,4 +1,3 @@
-using Company.ClassLibrary1;
 using Core.Entities;
 using Core.Entities.OrderAggregate;
 using Infrastructure.Config;

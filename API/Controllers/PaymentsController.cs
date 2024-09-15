@@ -1,4 +1,3 @@
-using Company.ClassLibrary1;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -8,7 +7,7 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PaymentsController(IPaymentService paymentService, IGenericRepository<DeliveryMethod> dmRepo) : ControllerBase
+    public class PaymentsController(IPaymentService paymentService, IUnitOfWork unit) : ControllerBase
     {
         [Authorize]
         [HttpPost("{cartId}")]
@@ -24,7 +23,7 @@ namespace API.Controllers
         [HttpGet("delivery-methods")]
         public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
         {
-            return Ok(await dmRepo.ListAllAsync());
+            return Ok(await unit.Repository<DeliveryMethod>().ListAllAsync());
         }
     }
 }

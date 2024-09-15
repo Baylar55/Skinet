@@ -1,5 +1,3 @@
-using System;
-using Company.ClassLibrary1;
 using Core.Entities;
 using Core.Interfaces;
 using Microsoft.Extensions.Configuration;
@@ -7,9 +5,7 @@ using Stripe;
 
 namespace Infrastructure.Services;
 
-public class PaymentService(IConfiguration config, ICartService cartService,
-                            IGenericRepository<Core.Entities.Product> productRepo,
-                            IGenericRepository<DeliveryMethod> dmRepo) : IPaymentService
+public class PaymentService(IConfiguration config, ICartService cartService, IUnitOfWork unit) : IPaymentService
 {
     public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
     {
@@ -23,7 +19,7 @@ public class PaymentService(IConfiguration config, ICartService cartService,
 
         if (cart.DeliveryMethodId.HasValue)
         {
-            var deliveryMethod = await dmRepo.GetByIdAsync((int)cart.DeliveryMethodId);
+            var deliveryMethod = await unit.Repository<DeliveryMethod>().GetByIdAsync((int)cart.DeliveryMethodId);
 
             if (deliveryMethod is null) return null;
 
@@ -32,7 +28,7 @@ public class PaymentService(IConfiguration config, ICartService cartService,
 
         foreach (var item in cart.Items)
         {
-            var productItem = await productRepo.GetByIdAsync(item.ProductId);
+            var productItem = await unit.Repository<Core.Entities.Product>().GetByIdAsync(item.ProductId);
 
             if (productItem is null) return null;
 

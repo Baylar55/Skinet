@@ -1,7 +1,4 @@
-﻿using System;
-using Core.Entities;
-
-namespace Company.ClassLibrary1;
+﻿namespace Core.Entities;
 
 public class DeliveryMethod : BaseEntity
 {
