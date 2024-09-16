@@ -1,5 +1,4 @@
-using System;
-using Company.ClassLibrary1;
+using Core.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

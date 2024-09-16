@@ -1,5 +1,4 @@
 using System.Linq.Expressions;
-using Core.Entities;
 using Core.Interfaces;
 
 namespace Core.Specifications;
@@ -22,12 +21,26 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
 
     public bool IsPagingEnabled { get; private set; }
 
+    public List<Expression<Func<T, object>>> Includes { get; } = [];
+
+    public List<string> IncludeStrings { get; } = [];
+
     public IQueryable<T> ApplyCriteria(IQueryable<T> query)
     {
         if (Criteria != null)
             query = query.Where(Criteria);
 
         return query;
+    }
+
+    protected void AddInclude(Expression<Func<T, object>> includeExpression)
+    {
+        Includes.Add(includeExpression);
+    }
+
+    protected void AddInclude(string includeString)
+    {
+        IncludeStrings.Add(includeString); // For ThenInclude()
     }
 
     protected void AddOrderBy(Expression<Func<T, object>> orderByExpression)
