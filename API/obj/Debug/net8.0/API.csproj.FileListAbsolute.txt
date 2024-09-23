@@ -149,3 +149,6 @@ C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Microsoft.Extensions.Identit
 C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
 C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Newtonsoft.Json.dll
 C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Stripe.net.dll
+C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Data\SeedData\delivery.json
+C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\Data\SeedData\products.json
+C:\Users\Baylar\Desktop\Skinet\API\bin\Debug\net8.0\API.staticwebassets.runtime.json

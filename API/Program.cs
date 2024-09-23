@@ -11,7 +11,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<StoreContext>(opt =>
     {
-        opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+        opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"), sqlServerOptions =>
+        {
+            sqlServerOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null
+            );
+        });
     });
 
 builder.Services.AddControllers();
@@ -20,7 +27,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(); 
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
 {
     var connectionString = builder.Configuration.GetConnectionString("Redis") ?? throw new Exception("Cannot get redis connection string");
@@ -28,7 +35,7 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
     return ConnectionMultiplexer.Connect(configuration);
 });
 builder.Services.AddSingleton<ICartService, CartService>();
-builder.Services.AddScoped<IPaymentService,PaymentService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 builder.Services.AddSignalR();
 
@@ -37,7 +44,7 @@ builder.Services.AddIdentityApiEndpoints<AppUser>()
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.Cookie.SameSite = SameSiteMode.None;
-    options.Cookie.SecurePolicy = CookieSecurePolicy.Always; 
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
 });
 
 builder.Services.AddCors();
@@ -58,11 +65,15 @@ app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.MapControllers();
 
 app.MapGroup("api").MapIdentityApi<AppUser>();
 
 app.MapHub<NotificationHub>("/hub/notifications");
+app.MapFallbackToController("Index", "Fallback");
 
 try
 {

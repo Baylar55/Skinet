@@ -16,3 +16,5 @@ C:\Users\Baylar\Desktop\Skinet\Infrastructure\obj\Debug\net8.0\ref\Infrastructur
 C:\Users\Baylar\Desktop\Skinet\Infrastructure\obj\Debug\net8.0\Infrastructure.sourcelink.json
 C:\Users\Baylar\Desktop\Skinet\Infrastructure\bin\Debug\net8.0\Infrastructure.runtimeconfig.json
 C:\Users\Baylar\Desktop\Skinet\Infrastructure\obj\Debug\net8.0\Infrastructure.genruntimeconfig.cache
+C:\Users\Baylar\Desktop\Skinet\Infrastructure\bin\Debug\net8.0\Data\SeedData\delivery.json
+C:\Users\Baylar\Desktop\Skinet\Infrastructure\bin\Debug\net8.0\Data\SeedData\products.json
