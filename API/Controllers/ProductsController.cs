@@ -2,6 +2,7 @@ using API.RequestHelpers;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -42,6 +43,7 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         return Ok(await unit.Repository<Product>().ListAsync(spec));
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<ActionResult<Product>> Create(Product product)
     {
@@ -50,6 +52,7 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         return await unit.Complete() ? CreatedAtAction("GetProduct", new { id = product.Id }, product) : BadRequest("Failed to create product.");
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut("{id:int}")]
     public async Task<ActionResult> Update(int id, Product product)
     {
@@ -60,6 +63,7 @@ public class ProductsController(IUnitOfWork unit) : BaseApiController
         return await unit.Complete() ? NoContent() : BadRequest("Failed to update the product");
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete(int id)
     {
