@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../../shared/models/cart';
 import { Product } from '../../shared/models/product';
 import { firstValueFrom, map, tap } from 'rxjs';
+import { Coupon } from '../../shared/models/coupon';
 import { DeliveryMethod } from '../../shared/models/deliveryMethod';
 
 @Injectable({
