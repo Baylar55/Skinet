@@ -22,17 +22,12 @@ jobs:
       - name: Restore .NET dependencies
         run: dotnet restore
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.x
-
-      - name: Restore npm dependencies
-        run: npm ci --ignore-scripts
-        working-directory: client
+      - name: Build .NET dependency graph
+        run: dotnet build --no-restore -bl:dependency.binlog
 
 
       - name: Submit dependency graph
         uses: advanced-security/component-detection-dependency-submission-action@v0.1.4
         with:
           detectorsCategories: NuGet,Npm
+          detectorArgs: MSBuildBinaryLog=EnableIfDefaultOff
