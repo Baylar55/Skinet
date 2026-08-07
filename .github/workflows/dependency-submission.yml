@@ -28,7 +28,8 @@ jobs:
           node-version: 24.x
 
       - name: Restore npm dependencies
-        run: npm ci --prefix client --ignore-scripts
+        run: npm ci --ignore-scripts
+        working-directory: client
 
 
       - name: Submit dependency graph
