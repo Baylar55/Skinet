@@ -14,6 +14,22 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore .NET dependencies
+        run: dotnet restore
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.x
+
+      - name: Restore npm dependencies
+        run: npm ci --prefix client --ignore-scripts
+
 
       - name: Submit dependency graph
         uses: advanced-security/component-detection-dependency-submission-action@v0.1.4
