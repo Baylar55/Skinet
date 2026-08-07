@@ -1,0 +1,21 @@
+name: Dependency Submission
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Submit dependency graph
+        uses: advanced-security/component-detection-dependency-submission-action@v0.1.4
+        with:
+          detectorsCategories: NuGet,Npm
