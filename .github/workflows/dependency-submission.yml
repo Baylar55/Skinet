@@ -1,0 +1,33 @@
+name: Dependency Submission
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore .NET dependencies
+        run: dotnet restore
+
+      - name: Build .NET dependency graph
+        run: dotnet build --no-restore -bl:dependency.binlog
+
+
+      - name: Submit dependency graph
+        uses: advanced-security/component-detection-dependency-submission-action@v0.1.4
+        with:
+          detectorsCategories: NuGet,Npm
+          detectorArgs: MSBuildBinaryLog=EnableIfDefaultOff
