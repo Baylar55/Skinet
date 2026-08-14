@@ -20,14 +20,15 @@ public class CouponService : ICouponService
         };
         var promotionCodes = await promotionService.ListAsync(options);
         var promotionCode = promotionCodes.FirstOrDefault();
-        if (promotionCode != null && promotionCode.Coupon != null)
+        var coupon = promotionCode?.Promotion?.Coupon;
+        if (promotionCode != null && coupon != null)
         {
             return new AppCoupon
             {
-                Name = promotionCode.Coupon.Name,
-                AmountOff = promotionCode.Coupon.AmountOff,
-                PercentOff = promotionCode.Coupon.PercentOff,
-                CouponId = promotionCode.Coupon.Id,
+                Name = coupon.Name,
+                AmountOff = coupon.AmountOff,
+                PercentOff = coupon.PercentOff,
+                CouponId = coupon.Id,
                 PromotionCode = promotionCode.Code
             };
         }
