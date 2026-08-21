@@ -22,7 +22,7 @@
     "@angular/router": "^22.1.1",
     "@microsoft/signalr": "^8.0.7",
     "@stripe/stripe-js": "^9.13.0",
-    "nanoid": "^5.0.7",
+    "nanoid": "^6.0.1",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.16.2"
