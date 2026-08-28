@@ -9,6 +9,10 @@ updates:
       angular:
         patterns:
           - "@angular/*"
+      test-dependencies:
+        patterns:
+          - "jasmine*"
+          - "karma*"
 
   - package-ecosystem: nuget
     directory: /Infrastructure
