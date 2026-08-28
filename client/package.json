@@ -40,7 +40,7 @@
     "@hono/node-server": "2.1.0"
   },
   "devDependencies": {
-    "@angular/build": "^22.1.1",
+    "@angular/build": "^22.1.5",
     "@angular/cli": "^22.1.4",
     "@angular/compiler-cli": "^22.1.1",
     "@tailwindcss/postcss": "^4.3.3",
