@@ -9,10 +9,14 @@ updates:
       angular:
         patterns:
           - "@angular/*"
+          - "@schematics/angular"
       test-dependencies:
         patterns:
           - "jasmine*"
           - "karma*"
+      npm-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: nuget
     directory: /Infrastructure
@@ -29,9 +33,17 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    groups:
+      nuget-dependencies:
+        patterns:
+          - "*"
 
   - package-ecosystem: nuget
     directory: /Core
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    groups:
+      nuget-dependencies:
+        patterns:
+          - "*"
