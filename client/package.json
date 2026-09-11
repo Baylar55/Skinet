@@ -38,7 +38,8 @@
     "undici": "7.29.0",
     "esbuild": "0.28.1",
     "@modelcontextprotocol/sdk": "1.30.0",
-    "@hono/node-server": "2.1.0"
+    "@hono/node-server": "2.1.0",
+    "hono": "^4.13.7"
   },
   "devDependencies": {
     "@angular/build": "^22.1.6",
