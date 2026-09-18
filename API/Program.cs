@@ -1,10 +1,11 @@
-using API.Middlewares;
 using API.SignalR;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Services;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StackExchange.Redis;
 
@@ -54,8 +55,22 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 builder.Services.AddCors();
+builder.Services.AddProblemDetails();
 var app = builder.Build();
-app.UseMiddleware<ExceptionMiddleware>();
+app.UseExceptionHandler(exceptionHandlerApp =>
+{
+    exceptionHandlerApp.Run(async context =>
+    {
+        var exception = context.Features.Get<IExceptionHandlerFeature>()?.Error;
+        context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+        await context.Response.WriteAsJsonAsync(new ProblemDetails
+        {
+            Status = StatusCodes.Status500InternalServerError,
+            Title = "Internal Server Error",
+            Detail = app.Environment.IsDevelopment() ? exception?.ToString() : null
+        });
+    });
+});
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:4200", "https://localhost:4200"));
 
 // Configure the HTTP request pipeline.
