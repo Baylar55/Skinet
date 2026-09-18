@@ -1,6 +1,5 @@
 {
     "files.exclude": {
-    "**/.vs": true,
-    "**/.github": true
+    "**/.vs": true
   }
 }

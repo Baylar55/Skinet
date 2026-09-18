@@ -5,13 +5,12 @@
             "name": "C#: API Debug",
             "type": "dotnet",
             "request": "launch",
-            "projectPath": "${workspaceFolder}/API.csproj"
+            "projectPath": "${workspaceFolder}/API/API.csproj"
         },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach"
         }
-    ],
-    "compounds": []
+    ]
 }

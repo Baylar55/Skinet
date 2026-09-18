@@ -13,10 +13,6 @@ updates:
         patterns:
           - "@angular/*"
           - "@schematics/angular"
-      test-dependencies:
-        patterns:
-          - "jasmine*"
-          - "karma*"
       npm-dependencies:
         patterns:
           - "*"
