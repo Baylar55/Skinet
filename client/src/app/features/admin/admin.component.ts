@@ -15,7 +15,9 @@ import { CurrencyPipe, DatePipe } from '@angular/common';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterLink } from '@angular/router';
-import { DialogService } from '../../core/services/dialog.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-admin',
@@ -46,7 +48,7 @@ export class AdminComponent implements OnInit {
     'action',
   ];
   private adminService = inject(AdminService);
-  private dialogService = inject(DialogService);
+  private dialog = inject(MatDialog);
   dataSource = new MatTableDataSource<Order>([]);
   orderParams = new OrderParams();
   totalItems = 0;
@@ -86,12 +88,15 @@ export class AdminComponent implements OnInit {
   }
 
   async openConfirmDialog(id: number) {
-    const confirmed = await this.dialogService.confirm(
-      'Confirm refund',
-      'Are you sure you want to issue this refund? This cannot be undone'
-    );
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Confirm refund',
+        message: 'Are you sure you want to issue this refund? This cannot be undone'
+      }
+    });
 
-    if(confirmed){
+    if (await firstValueFrom(dialogRef.afterClosed())) {
       this.refundOrder(id);
     }
   }
