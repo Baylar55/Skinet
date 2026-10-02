@@ -65,7 +65,7 @@ public class PaymentService : IPaymentService
             {
                 Amount = total,
                 Currency = "usd",
-                PaymentMethodTypes = ["card"]
+                AllowedPaymentMethodTypes = ["card"]
             };
             var intent = await service.CreateAsync(options);
             cart.PaymentIntentId = intent.Id;
