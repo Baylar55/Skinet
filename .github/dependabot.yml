@@ -32,6 +32,10 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    ignore:
+      # v11 targets ASP.NET Core 10/11; project is net8.0
+      - dependency-name: "Swashbuckle.AspNetCore"
+        update-types: ["version-update:semver-major"]
     groups:
       nuget-dependencies:
         patterns:
@@ -42,6 +46,10 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 10
+    ignore:
+      # v11 doesn't support net8.0
+      - dependency-name: "Microsoft.Extensions.Identity.Stores"
+        update-types: ["version-update:semver-major"]
     groups:
       nuget-dependencies:
         patterns:
